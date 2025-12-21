@@ -11,7 +11,6 @@
    ▄████▀     ███    ███   ██████████   ██████████ ████████▀    ███    █▀     ▄████▀      ▄████▀   
               ███    ███                                                                           
 ```
-Voici un README adapté à ton projet **TreeCatt**, en s’inspirant du style de ton exemple FileGen et du code que tu m’as fourni :
 
 **Advanced CLI tool combining tree and cat functionality**
 
