@@ -8,13 +8,7 @@ version = "0.1.1"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = [
-    "build>=1.3.0",
-    "pytest>=9.0.2",
-    "setuptools>=80.9.0",
-    "stdeb>=0.11.0",
-    "wheel>=0.45.1",
-]
+dependencies = []
 keywords = ["tree", "cat", "file", "directory", "cli", "tool"]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -29,6 +23,15 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Operating System :: OS Independent",
     "Environment :: Console",
+]
+
+[project.optional-dependencies]
+dev = [
+    "build>=1.3.0",
+    "pytest>=9.0.2",
+    "setuptools>=80.9.0",
+    "stdeb>=0.11.0",
+    "wheel>=0.45.1",
 ]
 
 [project.scripts]
