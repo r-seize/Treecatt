@@ -13,14 +13,6 @@ mkdir -p "${BUILD_DIR}${INSTALL_PREFIX}/bin"
 
 cp -r src/treecatt "${BUILD_DIR}${INSTALL_PREFIX}/lib/python3/dist-packages/"
 
-
-cat > "${BUILD_DIR}${INSTALL_PREFIX}/bin/treecatt" <<EOF
-#!/bin/bash
-python3 -m treecatt "\$@"
-EOF
-chmod +x "${BUILD_DIR}${INSTALL_PREFIX}/bin/treecatt"
-
-
 cat > "${BUILD_DIR}/DEBIAN/control" <<EOF
 Package: ${PACKAGE_NAME}
 Version: ${VERSION}
