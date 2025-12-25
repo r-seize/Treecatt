@@ -35,7 +35,7 @@ echo ""
 
 # Demander la nouvelle version
 echo -e "${BLUE}Quelle est la nouvelle version ?${NC}"
-echo "   Format: MAJOR.MINOR.PATCH (ex: 0.1.1)"
+echo "   Format: MAJOR.MINOR.PATCH (ex: 0.1.2)"
 echo "   Types:"
 echo "   - MAJOR: Changements incompatibles"
 echo "   - MINOR: Nouvelles fonctionnalités rétrocompatibles"
@@ -51,7 +51,7 @@ fi
 # Valider le format de version
 if ! [[ $NEW_VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
     echo -e "${RED}❌ Erreur: Format de version invalide${NC}"
-    echo "   Utilisez le format: MAJOR.MINOR.PATCH (ex: 0.1.1)"
+    echo "   Utilisez le format: MAJOR.MINOR.PATCH (ex: 0.1.2)"
     exit 1
 fi
 

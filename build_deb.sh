@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-VERSION="0.1.1"
+VERSION="0.1.2"
 PACKAGE_NAME="treecatt"
 BUILD_DIR="deb_dist/${PACKAGE_NAME}_${VERSION}_all"
 INSTALL_PREFIX="/usr/local"
