@@ -14,7 +14,7 @@
 
 **Advanced CLI tool combining tree and cat functionality**
 
-[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](https://github.com/r-seize/TreeCatt/releases)
+[![Version](https://img.shields.io/badge/version-0.1.1-blue.svg)](https://github.com/r-seize/TreeCatt/releases)
 [![Python](https://img.shields.io/badge/python-3.8+-green.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-GPL-orange.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-linux%20%7C%20macos%20%7C%20windows-lightgrey.svg)]()
@@ -38,20 +38,20 @@ curl -sSL https://raw.githubusercontent.com/r-seize/TreeCatt/main/install.sh | b
 ```bash
 python3 -m venv ~/treecatt-venv
 source ~/treecatt-venv/bin/activate
-pip install https://github.com/r-seize/TreeCatt/releases/download/v0.1.0/treecatt-0.1.0-py3-none-any.whl
+pip install https://github.com/r-seize/TreeCatt/releases/download/v0.1.1/treecatt-0.1.1-py3-none-any.whl
 ```
 
 ### 2. Using pip directly from the release archive
 
 ```bash
-pip3 install https://github.com/r-seize/TreeCatt/releases/download/v0.1.0/treecatt-0.1.0-py3-none-any.whl
+pip3 install https://github.com/r-seize/TreeCatt/releases/download/v0.1.1/treecatt-0.1.1-py3-none-any.whl
 ```
 
 ### 3. On Ubuntu/Debian using the .deb package
 
 ```bash
-wget https://github.com/r-seize/TreeCatt/releases/download/v0.1.0/treecatt_0.1.0_all.deb
-sudo dpkg -i treecatt_0.1.0_all.deb
+wget https://github.com/r-seize/TreeCatt/releases/download/v0.1.1/treecatt_0.1.1_all.deb
+sudo dpkg -i treecatt_0.1.1_all.deb
 ```
 
 ## Usage
@@ -128,7 +128,7 @@ TreeCatt is released under the [GPL License](LICENSE).
 ## Links
 
 * [GitHub Repository](https://github.com/r-seize/TreeCatt)
-* [Release v0.1.0](https://github.com/r-seize/TreeCatt/releases/tag/v0.1.0)
+* [Release v0.1.1](https://github.com/r-seize/TreeCatt/releases/tag/v0.1.1)
 
 ## About
 

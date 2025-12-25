@@ -4,12 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "treecatt"
-version = "0.1.0"
+version = "0.1.1"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "build>=1.3.0",
+    "pytest>=9.0.2",
     "setuptools>=80.9.0",
     "stdeb>=0.11.0",
     "wheel>=0.45.1",
