@@ -19,7 +19,7 @@ Version: ${VERSION}
 Section: utils
 Priority: optional
 Architecture: all
-Maintainer: TreeCatt <contact@treecatt.dev>
+Maintainer: R-seize (https://github.com/r-seize)
 Depends: python3 (>= 3.8)
 Description: Advanced CLI tool combining tree and cat
  TreeCatt is an advanced command-line tool that combines directory
