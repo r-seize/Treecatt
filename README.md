@@ -1,15 +1,13 @@
 <div align="center">
 
 ```
-    ███        ▄████████    ▄████████    ▄████████  ▄████████    ▄████████     ███         ███     
-▀█████████▄   ███    ███   ███    ███   ███    ███ ███    ███   ███    ███ ▀█████████▄ ▀█████████▄ 
-   ▀███▀▀██   ███    ███   ███    █▀    ███    █▀  ███    █▀    ███    ███    ▀███▀▀██    ▀███▀▀██ 
-    ███   ▀  ▄███▄▄▄▄██▀  ▄███▄▄▄      ▄███▄▄▄     ███          ███    ███     ███   ▀     ███   ▀ 
-    ███     ▀▀███▀▀▀▀▀   ▀▀███▀▀▀     ▀▀███▀▀▀     ███        ▀███████████     ███         ███     
-    ███     ▀███████████   ███    █▄    ███    █▄  ███    █▄    ███    ███     ███         ███     
-    ███       ███    ███   ███    ███   ███    ███ ███    ███   ███    ███     ███         ███     
-   ▄████▀     ███    ███   ██████████   ██████████ ████████▀    ███    █▀     ▄████▀      ▄████▀   
-              ███    ███                                                                           
+████████╗██████╗ ███████╗███████╗ ██████╗ █████╗ ████████╗████████╗
+╚══██╔══╝██╔══██╗██╔════╝██╔════╝██╔════╝██╔══██╗╚══██╔══╝╚══██╔══╝
+   ██║   ██████╔╝█████╗  █████╗  ██║     ███████║   ██║      ██║   
+   ██║   ██╔══██╗██╔══╝  ██╔══╝  ██║     ██╔══██║   ██║      ██║   
+   ██║   ██║  ██║███████╗███████╗╚██████╗██║  ██║   ██║      ██║   
+   ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝ ╚═════╝╚═╝  ╚═╝   ╚═╝      ╚═╝   
+                                                                   
 ```
 
 **Advanced CLI tool combining tree and cat functionality**
@@ -27,31 +25,44 @@ TreeCatt is a versatile command-line tool to analyze directories and display fil
 
 ## Installation
 
-### 1. Using the install script (Linux/macOS/Windows)
+## Installation
+
+### Method 1: pipx (Recommended)
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/r-seize/TreeCatt/main/install.sh | bash
+# Install pipx if needed
+sudo apt install pipx  # Ubuntu/Debian
+# or: brew install pipx (macOS)
+
+pipx ensurepath
+pipx install git+https://github.com/r-seize/TreeCatt.git@v0.1.2
 ```
 
-> If your system Python is managed by the OS (externally-managed environment), use a virtual environment or pipx:
+### Method 2: Ubuntu/Debian (.deb)
 
 ```bash
-python3 -m venv ~/treecatt-venv
-source ~/treecatt-venv/bin/activate
-pip install https://github.com/r-seize/TreeCatt/releases/download/v0.1.2/treecatt-0.1.2-py3-none-any.whl
+wget https://github.com/r-seize/TreeCatt/releases/download/v0.1.2/python3-treecatt_0.1.2-1_all.deb
+sudo dpkg -i python3-treecatt_0.1.2-1_all.deb
 ```
 
-### 2. Using pip directly from the release archive
+### Method 3: Virtual Environment
 
 ```bash
-pip3 install https://github.com/r-seize/TreeCatt/releases/download/v0.1.2/treecatt-0.1.2-py3-none-any.whl
+python3 -m venv ~/.treecatt-venv
+source ~/.treecatt-venv/bin/activate
+pip install git+https://github.com/r-seize/TreeCatt.git@v0.1.2
+
+# Add to PATH (Linux/macOS)
+ln -s ~/.treecatt-venv/bin/treecatt ~/.local/bin/treecatt
 ```
 
-### 3. On Ubuntu/Debian using the .deb package
+## Verification
+
+After installation, verify it works:
 
 ```bash
-wget https://github.com/r-seize/TreeCatt/releases/download/v0.1.2/treecatt_0.1.2_all.deb
-sudo dpkg -i treecatt_0.1.2_all.deb
+treecatt --version
+treecatt --help
 ```
 
 ## Usage
