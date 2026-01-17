@@ -25,8 +25,6 @@ TreeCatt is a versatile command-line tool to analyze directories and display fil
 
 ## Installation
 
-## Installation
-
 ### Method 1: pipx (Recommended)
 
 ```bash
@@ -56,7 +54,7 @@ pip install git+https://github.com/r-seize/TreeCatt.git@v0.1.3
 ln -s ~/.treecatt-venv/bin/treecatt ~/.local/bin/treecatt
 ```
 
-## Verification
+### Verification
 
 After installation, verify it works:
 
