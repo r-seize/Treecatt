@@ -5,7 +5,7 @@ TreeCatt combine les fonctionnalités de 'tree' et 'cat' pour analyser
 rapidement la structure d'un projet et le contenu de ses fichiers.
 """
 
-__version__     = "0.1.2"
+__version__     = "0.1.3"
 __author__      = "TreeCatt Developer"
 __license__     = "MIT"
 

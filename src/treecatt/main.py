@@ -16,7 +16,7 @@ from treecatt.features import (
     read_file_content, should_ignore, search_in_file, sort_entries
 )
 
-VERSION = "0.1.2"
+VERSION = "0.1.3"
 
 
 class TreeCatt:
