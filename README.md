@@ -7,7 +7,6 @@
    ██║   ██╔══██╗██╔══╝  ██╔══╝  ██║     ██╔══██║   ██║      ██║   
    ██║   ██║  ██║███████╗███████╗╚██████╗██║  ██║   ██║      ██║   
    ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝ ╚═════╝╚═╝  ╚═╝   ╚═╝      ╚═╝   
-                                                                   
 ```
 
 **Advanced CLI tool combining tree and cat functionality**
@@ -146,6 +145,12 @@ treecatt --help
 
 ### Linux/macOS
 
+* If installed via pipx:
+
+```bash
+pipx uninstall treecatt
+```
+
 * If installed via `.deb`:
 
 ```bash
@@ -153,21 +158,21 @@ sudo dpkg -r treecatt
 sudo apt-get autoremove
 ```
 
-* If installed via `pip`:
-
-```bash
-pip3 uninstall treecatt
-```
-
 * If installed in a virtual environment:
 
 ```bash
-rm -rf /path/to/treecatt-venv
+rm -rf ~/.treecatt-venv
 ```
 
 ### Windows
 
-* If installed via `pip` or in a virtual environment:
+* If installed via pipx:
+
+```bash
+pipx uninstall treecatt
+```
+
+* If installed via pip or virtual environment:
 
 ```bash
 pip uninstall treecatt
