@@ -10,24 +10,28 @@ from treecatt.features.file import is_binary_file
 
 def should_ignore(path: Path, ignore_patterns: Set[str], sensitive_patterns: Set[str],
                   include_only: Optional[Set[str]] = None) -> bool:
-    """Check if a path should be ignored"""
+    """
+    Détermine si un chemin doit être ignoré.
+    Si un filtre --include est actif → on IGNORE tout ce qui NE MATCHE PAS.
+    """
     name = path.name
-
-    for pattern in ignore_patterns:
-        if fnmatch.fnmatch(name, pattern):
-            return True
+    full_path_str = str(path)
 
     for pattern in sensitive_patterns:
-        if fnmatch.fnmatch(name, pattern):
+        if fnmatch.fnmatch(name, pattern) or fnmatch.fnmatch(full_path_str, pattern):
             return True
 
-    if include_only:
-        included = False
+    for pattern in ignore_patterns:
+        if fnmatch.fnmatch(name, pattern) or fnmatch.fnmatch(full_path_str, pattern):
+            return True
+
+    if include_only is not None:
+        matched = False
         for pattern in include_only:
-            if fnmatch.fnmatch(name, pattern) or fnmatch.fnmatch(str(path), f"*{pattern}*"):
-                included = True
+            if fnmatch.fnmatch(name, pattern) or fnmatch.fnmatch(full_path_str, pattern):
+                matched = True
                 break
-        if not included:
+        if not matched:
             return True
 
     return False

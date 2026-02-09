@@ -11,7 +11,7 @@
 
 **Advanced CLI tool combining tree and cat functionality**
 
-[![Version](https://img.shields.io/badge/version-0.1.3-blue.svg)](https://github.com/r-seize/TreeCatt/releases)
+[![Version](https://img.shields.io/badge/version-0.1.4-blue.svg)](https://github.com/r-seize/TreeCatt/releases)
 [![Python](https://img.shields.io/badge/python-3.8+-green.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-GPL-orange.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-linux%20%7C%20macos%20%7C%20windows-lightgrey.svg)]()
@@ -32,14 +32,14 @@ sudo apt install pipx  # Ubuntu/Debian
 # or: brew install pipx (macOS)
 
 pipx ensurepath
-pipx install git+https://github.com/r-seize/TreeCatt.git@v0.1.3
+pipx install git+https://github.com/r-seize/TreeCatt.git@v0.1.4
 ```
 
 ### Method 2: Ubuntu/Debian (.deb)
 
 ```bash
-wget https://github.com/r-seize/TreeCatt/releases/download/v0.1.3/python3-treecatt_0.1.3-1_all.deb
-sudo dpkg -i python3-treecatt_0.1.3-1_all.deb
+wget https://github.com/r-seize/TreeCatt/releases/download/v0.1.4/python3-treecatt_0.1.4-1_all.deb
+sudo dpkg -i python3-treecatt_0.1.4-1_all.deb
 ```
 
 ### Method 3: Virtual Environment
@@ -47,7 +47,7 @@ sudo dpkg -i python3-treecatt_0.1.3-1_all.deb
 ```bash
 python3 -m venv ~/.treecatt-venv
 source ~/.treecatt-venv/bin/activate
-pip install git+https://github.com/r-seize/TreeCatt.git@v0.1.3
+pip install git+https://github.com/r-seize/TreeCatt.git@v0.1.4
 
 # Add to PATH (Linux/macOS)
 ln -s ~/.treecatt-venv/bin/treecatt ~/.local/bin/treecatt
@@ -192,7 +192,7 @@ TreeCatt is released under the [GPL License](LICENSE).
 ## Links
 
 * [GitHub Repository](https://github.com/r-seize/TreeCatt)
-* [Release v0.1.3](https://github.com/r-seize/TreeCatt/releases/tag/v0.1.3)
+* [Release v0.1.4](https://github.com/r-seize/TreeCatt/releases/tag/v0.1.4)
 
 ## About
 

@@ -4,17 +4,135 @@ Constants and default patterns for TreeCatt
 
 # Patterns ignored by default
 DEFAULT_IGNORE = {
-    'node_modules', '__pycache__', '.git', '.svn', '.hg',
-    'venv', 'env', '.venv', 'virtualenv',
-    '*.pyc', '*.pyo', '*.pyd', '.DS_Store',
-    '*.log', '*.tmp', '*.temp',
-    'dist', 'build', '.pytest_cache', '.mypy_cache',
-    'coverage', '.coverage', 'htmlcov',
-    '.idea', '.vscode', '*.swp', '*.swo',
-    'README.md', 'README.rst', 'README.txt', 'README',
-    'LICENSE', 'LICENSE.txt', 'LICENSE.md',
-    'CHANGELOG.md', 'CONTRIBUTING.md', 'HISTORY.md',
-    '*.md', '*.rst'
+    '.git', '.svn', '.hg', '.bzr',
+    '.gitignore', '.gitattributes', '.gitmodules',
+
+    '__pycache__', '*.pyc', '*.pyo', '*.pyd', '*.pyi',
+    '.pytest_cache', '.mypy_cache', '.ruff_cache',
+    '.coverage', 'coverage', 'htmlcov',
+    '.tox', '.nox',
+
+    'node_modules', '.npm', '.yarn', '.pnpm-store',
+    'package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 'uv.lock',
+
+    'venv', 'env', '.venv', '.env', 'virtualenv',
+    '.python-version',
+
+    'dist', 'build', 'out', '.next', '.nuxt',
+    '*.egg-info', '*.whl',
+
+    '*.log', '*.tmp', '*.temp', '*.bak', '*.swp', '*.swo',
+
+    '.DS_Store', 'Thumbs.db', 'desktop.ini',
+
+    '.idea', '.vscode', '.fleet',
+
+    'README', 'README.*',
+    'LICENSE', 'LICENSE.*',
+    'CHANGELOG.*', 'CONTRIBUTING.*', 'HISTORY.*',
+
+    '*.md', '*.rst',
+
+    '.classpath', '.project', '.settings',
+    '.gradle', 'gradle-app.setting',
+    '*.iml', '*.ipr', '*.iws',
+
+    'target', '*.class', '*.jar', '*.war', '*.ear',
+
+    '.cargo', 'target/debug', 'target/release',
+    '*.rlib',
+
+    'bin', 'obj', '*.dll', '*.exe', '*.pdb',
+
+    'composer.lock', 'vendor',
+    '*.phar',
+
+    'Pods', '*.xcworkspace', '*.xcodeproj',
+    'DerivedData', '*.ipa', '*.dSYM',
+
+    '*.o', '*.a', '*.so', '*.dylib',
+    '*.out',
+
+    '.idea_modules', '.eslintcache', '.stylelintcache',
+    '.cache', '.parcel-cache', '.turbo',
+
+    '*.map', '*.min.js', '*.min.css',
+
+    '.terraform', '*.tfstate', '*.tfstate.backup',
+    '.terragrunt-cache',
+
+    '.serverless', '.vercel', '.netlify',
+
+    '.expo', '.expo-shared',
+
+    '.angular', '.svelte-kit',
+
+    '*.lock',
+
+    '.gradle-cache', '.m2', '.ivy2',
+
+    '.idea/**/workspace.xml',
+    '.idea/**/tasks.xml',
+
+    '.vagrant', '.docker', 'docker-compose.override.yml',
+
+    '*.sqlite', '*.sqlite3', '*.db',
+
+    '*.pem', '*.key', '*.crt',
+
+    '*.pid',
+
+    '*.orig', '*.rej',
+
+    '*.coverage',
+
+    '.bundle', 'Gemfile.lock',
+    '.rvmrc', '.ruby-version',
+
+    '.nuget', '*.nupkg',
+
+    '.meteor', '.meteor/local',
+
+    '*.tsbuildinfo',
+
+    '.idea_modules', '.phpunit.result.cache',
+
+    '.sass-cache', '*.scssc',
+
+    '.pytest_cache',
+
+    '.sonar', '.scannerwork',
+
+    '.idea/**/dataSources',
+    '.idea/**/dataSources.local.xml',
+
+    '*.bak~', '*.old',
+
+    '.idea/**/shelf',
+
+    '*.tmp.*',
+
+    '.cache-loader',
+
+    '.gradle-wrapper',
+
+    '.idea/**/httpRequests',
+
+    '.idea/**/modules.xml',
+
+    '*.snap',
+
+    '.vscode-test',
+
+    '.idea/**/misc.xml',
+
+    '.idea/**/encodings.xml',
+
+    '.idea/**/deployment.xml',
+
+    '*.stackdump',
+
+    '.idea/**/uiDesigner.xml'
 }
 
 # Sensitive files ignored by default

@@ -2,14 +2,13 @@
 File utility functions for TreeCatt
 """
 
-from calendar import week
 from pathlib import Path
 from datetime import datetime, timezone
 from typing import Optional, Union
 from treecatt.constants import BINARY_EXTENSIONS
 
 def is_binary_file(path: Path) -> Optional[bool]:
-    """Determine if a file is binary(like cat does)"""
+    """Determine if a file is binary (like cat does)"""
 
     if path.suffix.lower() in BINARY_EXTENSIONS:
         return True
@@ -91,7 +90,7 @@ def read_file_content(
     file_path: Path,
     max_size: float,
     show_line_numbers: bool         = False, 
-    search_content: Optional[str]   =  None
+    search_content: Optional[str]   = None
     ) -> Optional[str]:
     """Read file content (like cat does)"""
 
@@ -99,7 +98,7 @@ def read_file_content(
         size = file_path.stat().st_size
 
         if size > max_size:
-            return f"[File to large: {format_size(size)}]"
+            return f"[File too large: {format_size(size)}]"
 
         if is_binary_file(file_path):
             return f"[Binary file]"
@@ -140,6 +139,7 @@ def read_file_content(
         return f"[Read error: {str(e)}]"
 
 def get_file_dates(path: Union[Path, str]) -> str:
+    """Get formatted modification date of a file"""
     try:
         p           = Path(path)
         stat_info   = p.stat()

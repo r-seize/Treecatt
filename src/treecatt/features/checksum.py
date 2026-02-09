@@ -41,7 +41,7 @@ class ChecksumManager:
             return ""
 
     def get_duplicates(self) -> Dict[str, List[Path]]:
-        """Returnrs file with duplicate checknums"""
+        """Returns files with duplicate checksums"""
         return {k: v for k, v in self.file_checksums.items() if len(v) > 1}
 
     def format_size(self, size: float) -> str:
