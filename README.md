@@ -11,7 +11,7 @@
 
 **Advanced CLI tool combining tree and cat functionality**
 
-[![Version](https://img.shields.io/badge/version-0.1.4-blue.svg)](https://github.com/r-seize/TreeCatt/releases)
+[![Version](https://img.shields.io/badge/version-0.2.0-blue.svg)](https://github.com/r-seize/TreeCatt/releases)
 [![Python](https://img.shields.io/badge/python-3.8+-green.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-GPL-orange.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-linux%20%7C%20macos%20%7C%20windows-lightgrey.svg)]()
@@ -32,14 +32,14 @@ sudo apt install pipx  # Ubuntu/Debian
 # or: brew install pipx (macOS)
 
 pipx ensurepath
-pipx install git+https://github.com/r-seize/TreeCatt.git@v0.1.4
+pipx install git+https://github.com/r-seize/TreeCatt.git@v0.2.0
 ```
 
 ### Method 2: Ubuntu/Debian (.deb)
 
 ```bash
-wget https://github.com/r-seize/TreeCatt/releases/download/v0.1.4/python3-treecatt_0.1.4-1_all.deb
-sudo dpkg -i python3-treecatt_0.1.4-1_all.deb
+wget https://github.com/r-seize/TreeCatt/releases/download/v0.2.0/python3-treecatt_0.2.0-1_all.deb
+sudo dpkg -i python3-treecatt_0.2.0-1_all.deb
 ```
 
 ### Method 3: Virtual Environment
@@ -47,7 +47,7 @@ sudo dpkg -i python3-treecatt_0.1.4-1_all.deb
 ```bash
 python3 -m venv ~/.treecatt-venv
 source ~/.treecatt-venv/bin/activate
-pip install git+https://github.com/r-seize/TreeCatt.git@v0.1.4
+pip install git+https://github.com/r-seize/TreeCatt.git@v0.2.0
 
 # Add to PATH (Linux/macOS)
 ln -s ~/.treecatt-venv/bin/treecatt ~/.local/bin/treecatt
@@ -68,78 +68,44 @@ treecatt --help
 
 | Command | Description |
 |---------|-------------|
-| `treecatt` | Run a full analysis on the current directory with default settings. |
-| `treecatt /path/to/directory` | Run a full analysis on the specified path. |
+| `treecatt` | Analyze the current directory. |
+| `treecatt /path/to/directory` | Analyze a specific path. |
 
 ### Tree Display
 
 | Command | Description |
 |---------|-------------|
-| `treecatt --tree` | Display only the directory tree (no file contents). |
+| `treecatt --tree` | Display only the directory tree. |
 | `treecatt --tree --depth 3` | Limit the tree display to 3 levels deep. |
 | `treecatt --tree --tree-size` | Show file sizes in the tree output. |
 | `treecatt --tree --permissions` | Show Unix file permissions in the tree. |
 | `treecatt --tree --dates` | Show file modification dates in the tree. |
-| `treecatt --tree --git-status` | Show Git status (modified, untracked, ignored) in the tree. |
+| `treecatt --tree --git-status` | Show Git status (`[M]` modified, `[A]` added, `[?]` untracked…) in the tree. |
 | `treecatt --tree --tree-size --permissions --dates --git-status` | Display a fully detailed tree with all available metadata. |
-
-### Filtering Files
-
-| Command | Description |
-|---------|-------------|
-| `treecatt --ignore "*.log" "*.tmp" "__pycache__"` | Ignore additional file or directory patterns. |
-| `treecatt --no-default-ignore` | Disable built-in ignore rules (e.g., `.git`, `node_modules`). |
-| `treecatt --include "*.py" "*.md"` | Include only files matching specific patterns. |
-| `treecatt --filter-date 7d` | Show only files modified in the last 7 days. |
-| `treecatt --max-size 1MB` | Exclude files larger than the specified size. |
-
-### File Content Display
-
-| Command | Description |
-|---------|-------------|
-| `treecatt --view .env config.yaml` | Force display of sensitive or normally hidden files. |
-| `treecatt --line-numbers` | Display line numbers when showing file contents. |
-
-### Analysis Features
-
-| Command | Description |
-|---------|-------------|
-| `treecatt --checksums md5` | Calculate MD5 checksums for all files. |
-| `treecatt --checksums sha1` | Calculate SHA-1 checksums for all files. |
-| `treecatt --checksums sha256` | Calculate SHA-256 checksums for all files. |
-| `treecatt --checksums sha256 --duplicates` | Detect duplicate files using cryptographic hashes. |
-
-### Search
-
-| Command | Description |
-|---------|-------------|
-| `treecatt --search "TODO"` | Search for a text pattern in all analyzed files. |
-| `treecatt --search "password"` | Search for potentially sensitive keywords. |
 
 ### Sorting
 
 | Command | Description |
 |---------|-------------|
 | `treecatt --sort name` | Sort files alphabetically (default). |
-| `treecatt --sort size` | Sort files by size. |
-| `treecatt --sort date` | Sort files by modification date. |
+| `treecatt --sort size` | Sort files by size (largest first). |
+| `treecatt --sort date` | Sort files by modification date (newest first). |
 | `treecatt --sort ext` | Sort files by file extension. |
 
 ### Combined Examples
 
 | Command | Description |
 |---------|-------------|
-| `treecatt --tree --depth 4 --include "*.py" --sort size` | Analyze a Python project tree, limited to 4 levels, sorted by file size. |
-| `treecatt --search "FIXME" --filter-date 2w` | Search for recent "FIXME" comments from the last two weeks. |
-| `treecatt --checksums sha1 --duplicates --max-size 5MB` | Find duplicate files smaller than 5 MB using SHA-1 hashes. |
-| `treecatt --tree --git-status --ignore node_modules dist` | Show project tree while ignoring build artifacts. |
-| `treecatt --view .env --line-numbers --search "API_KEY"` | Inspect environment files and search for API keys. |
+| `treecatt --tree --depth 2 --sort size` | Tree limited to 2 levels, sorted by size. |
+| `treecatt --tree --git-status --sort date` | Tree with Git status, sorted by date. |
+| `treecatt --tree --tree-size --permissions --dates --depth 3` | Full metadata tree, 3 levels deep. |
 
 ### Miscellaneous
 
 | Command | Description |
 |---------|-------------|
-| `treecatt --version` | Display TreeCatt version information. |
+| `treecatt --version` | Display TreeCatt version. |
+| `treecatt --help` | Show all available options. |
 
 ## Uninstallation
 
@@ -192,7 +158,7 @@ TreeCatt is released under the [GPL License](LICENSE).
 ## Links
 
 * [GitHub Repository](https://github.com/r-seize/TreeCatt)
-* [Release v0.1.4](https://github.com/r-seize/TreeCatt/releases/tag/v0.1.4)
+* [Release v0.2.0](https://github.com/r-seize/TreeCatt/releases/tag/v0.2.0)
 
 ## About
 

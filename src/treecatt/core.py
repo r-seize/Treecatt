@@ -6,74 +6,131 @@ import sys
 from pathlib import Path
 from typing import List, Optional
 
-from treecatt.constants import DEFAULT_IGNORE, SENSITIVE_FILES
+from treecatt.constants import DEFAULT_IGNORE
 from treecatt.features import (
-    GitStatusManager, ChecksumManager,
-    format_size, get_permissions, get_file_dates, matches_date_filter,
-    read_file_content, should_ignore, search_in_file, sort_entries
+    GitStatusManager,
+    format_size,
+    get_permissions,
+    get_file_dates,
+    read_file_content,
+    should_ignore,
+    sort_entries,
 )
+from treecatt.colors import (
+    bold, dim, blue, cyan, green, yellow, magenta, red,
+    bright_blue, bright_cyan, bright_green, bright_yellow, bright_white,
+)
+
+# Tree drawing characters
+ELBOW = dim("└── ")
+TEE   = dim("├── ")
+BLANK = "    "
+VERT  = dim("│   ")
+
+# Extension → color mapping
+EXT_COLORS = {
+    ".py": bright_blue, ".pyi": blue,
+    ".js": bright_yellow, ".mjs": bright_yellow,
+    ".ts": blue, ".tsx": cyan, ".jsx": cyan,
+    ".html": yellow, ".htm": yellow,
+    ".css": magenta, ".scss": magenta, ".sass": magenta,
+    ".json": bright_yellow,
+    ".yaml": yellow, ".yml": yellow, ".toml": yellow,
+    ".ini": yellow, ".cfg": yellow, ".conf": yellow,
+    ".sh": bright_green, ".bash": bright_green, ".zsh": bright_green,
+    ".md": cyan, ".rst": cyan, ".txt": bright_white,
+    ".c": bright_blue, ".h": blue, ".cpp": bright_blue, ".hpp": blue,
+    ".rs": yellow, ".go": cyan, ".rb": red, ".php": magenta,
+    ".java": yellow, ".kt": magenta,
+    "Makefile": bright_green, "makefile": bright_green, ".mk": bright_green,
+}
+
+GIT_COLORS = {
+    "[M]": yellow,
+    "[A]": bright_green,
+    "[D]": red,
+    "[R]": cyan,
+    "[?]": dim,
+}
+
+
+def color_filename(path: Path) -> str:
+    """Return a colorized filename based on type/extension"""
+    name = path.name
+    if path.is_dir():
+        return bold(bright_blue(name))
+    try:
+        import stat as _stat
+        if path.stat().st_mode & (_stat.S_IXUSR | _stat.S_IXGRP | _stat.S_IXOTH):
+            return bright_green(name)
+    except Exception:
+        pass
+    fn = EXT_COLORS.get(path.suffix.lower()) or EXT_COLORS.get(name)
+    if fn:
+        return fn(name)
+    return bright_white(name)
+
+
+def color_size(s: str) -> str:
+    return dim(f"({s})")
+
+
+def color_perms(p: str) -> str:
+    result = ""
+    for ch in p:
+        if ch == "-":
+            result += dim(ch)
+        elif ch in "rwx":
+            result += bright_green(ch)
+        else:
+            result += ch
+    return f"[{result}]"
+
+
+def color_date(d: str) -> str:
+    return dim(f"[{d}]")
+
+
+def color_git(status: str) -> str:
+    fn = GIT_COLORS.get(status, lambda x: x)
+    return fn(status)
 
 
 class TreeCatt:
-    """Main TreeCatt class for tree generation and file display"""
-    
-    def __init__(self, 
-                 root_path: str,
-                 ignore_patterns: Optional[List[str]]   = None,
-                 view_sensitive: Optional[List[str]]    = None,
-                 max_file_size: int                     = 1024 * 1024,
-                 show_tree: bool                        = False,
-                 show_tree_size: bool                   = False,
-                 show_line_numbers: bool                = False,
-                 show_git_status: bool                  = False,
-                 show_permissions: bool                 = False,
-                 show_dates: bool                       = False,
-                 show_checksums: bool                   = False,
-                 checksum_type: str                     = 'md5',
-                 filter_by_date: Optional[str]          = None,
-                 search_content: Optional[str]          = None,
-                 show_duplicates: bool                  = False,
-                 sort_by: str                           = 'name',
-                 max_depth: Optional[int]               = None,
-                 include_only: Optional[List[str]]      = None,
-                 no_default_ignore: bool                = False):
+    """Main TreeCatt class for tree generation and file content display"""
 
-        self.root_path                  = Path(root_path).resolve()
-        self.max_file_size              = max_file_size
-        self.show_tree                  = show_tree
-        self.show_tree_size             = show_tree_size
-        self.show_line_numbers          = show_line_numbers
-        self.show_git_status            = show_git_status
-        self.show_permissions           = show_permissions
-        self.show_dates                 = show_dates
-        self.show_checksums             = show_checksums
-        self.filter_by_date             = filter_by_date
-        self.search_content             = search_content
-        self.show_duplicates            = show_duplicates
-        self.sort_by                    = sort_by
-        self.max_depth                  = max_depth
-        self.include_only               = set(include_only) if include_only else None
+    def __init__(
+        self,
+        root_path: str,
+        show_tree_only: bool = False,
+        show_tree_size: bool = False,
+        show_permissions: bool = False,
+        show_dates: bool = False,
+        show_git_status: bool = False,
+        sort_by: str = 'name',
+        max_depth: Optional[int] = None,
+        max_file_size: int = 1024 * 1024,
+    ):
+        self.root_path = Path(root_path).resolve()
+        self.show_tree_only = show_tree_only
+        self.show_tree_size = show_tree_size
+        self.show_permissions = show_permissions
+        self.show_dates = show_dates
+        self.show_git_status = show_git_status
+        self.sort_by = sort_by
+        self.max_depth = max_depth
+        self.max_file_size = max_file_size
 
-        # Build ignore patterns
-        self.ignore_patterns = set(DEFAULT_IGNORE) if not no_default_ignore else set()
-        if ignore_patterns:
-            self.ignore_patterns.update(ignore_patterns)
+        self.ignore_patterns = set(DEFAULT_IGNORE)
 
-        # Handle sensitive files
-        self.sensitive_patterns = set(SENSITIVE_FILES)
-        if view_sensitive:
-            for pattern in view_sensitive:
-                self.sensitive_patterns.discard(pattern)
+        self.file_count = 0
+        self.dir_count = 0
+        self.total_size = 0
 
-        # Statistics
-        self.file_count         = 0
-        self.dir_count          = 0
-        self.skipped_count      = 0
-        self.total_size         = 0
+        self.git_manager = GitStatusManager(self.root_path) if show_git_status else None
 
-        # Initialize features
-        self.git_manager        = GitStatusManager(self.root_path) if show_git_status else None
-        self.checksum_manager   = ChecksumManager(checksum_type) if show_checksums else None
+    def _should_ignore(self, path: Path) -> bool:
+        return should_ignore(path, self.ignore_patterns)
 
     def get_tree_structure(self, directory: Path, prefix: str = "", depth: int = 0) -> List[str]:
         """Generate the tree structure"""
@@ -82,178 +139,139 @@ class TreeCatt:
 
         lines = []
         try:
-            entries = list(directory.iterdir())
-            entries = [e for e in entries if not self._should_ignore(e)]
+            entries = [e for e in directory.iterdir() if not self._should_ignore(e)]
             entries = sort_entries(entries, self.sort_by)
 
-            # Calculate max length for alignment
+            show_meta = self.show_permissions or self.show_dates or self.show_git_status
+
+            # Pre-calculate max plain-text length for metadata alignment
             max_len = 0
-            if self.show_permissions or self.show_dates or self.show_git_status or self.show_checksums:
+            if show_meta:
                 for entry in entries:
                     if entry.is_file():
-                        entry_str = entry.name
+                        plain = entry.name
                         if self.show_tree_size:
-                            entry_str += f" ({format_size(entry.stat().st_size)})"
-                        max_len = max(max_len, len(entry_str))
+                            plain += f" ({format_size(entry.stat().st_size)})"
+                        max_len = max(max_len, len(plain))
 
             for i, entry in enumerate(entries):
-                is_last             = i == len(entries) - 1
-                current_prefix      = "└── " if is_last else "├── "
-                line                = f"{prefix}{current_prefix}{entry.name}"
+                is_last = i == len(entries) - 1
+                connector = ELBOW if is_last else TEE
 
                 if entry.is_dir():
                     self.dir_count += 1
-                    line += "/"
+                    lines.append(f"{prefix}{connector}{color_filename(entry)}/")
+                    ext = BLANK if is_last else VERT
+                    lines.extend(self.get_tree_structure(entry, prefix + ext, depth + 1))
                 else:
                     self.file_count += 1
                     size = entry.stat().st_size
                     self.total_size += size
 
-                    # Build base line with size
-                    base_line = entry.name
+                    plain_base = entry.name
                     if self.show_tree_size:
-                        base_line += f" ({format_size(size)})"
+                        plain_base += f" ({format_size(size)})"
 
-                    # Calculate padding for alignment
-                    padding     = max_len - len(base_line) if max_len > 0 else 0
-                    line        = f"{prefix}{current_prefix}{base_line}{' ' * padding}"
+                    colored_name = color_filename(entry)
+                    if self.show_tree_size:
+                        colored_name += " " + color_size(format_size(size))
 
-                    # Add aligned metadata
-                    metadata = []
+                    if show_meta:
+                        padding = max_len - len(plain_base)
+                        line = f"{prefix}{connector}{colored_name}{' ' * padding}"
+                        meta = []
+                        if self.show_permissions:
+                            meta.append(color_perms(get_permissions(entry)))
+                        if self.show_dates:
+                            meta.append(color_date(get_file_dates(entry)))
+                        if self.show_git_status and self.git_manager:
+                            gs = self.git_manager.get_status(entry)
+                            if gs:
+                                meta.append(color_git(gs))
+                        if meta:
+                            line += "  " + " ".join(meta)
+                    else:
+                        line = f"{prefix}{connector}{colored_name}"
 
-                    if self.show_permissions:
-                        metadata.append(f"[{get_permissions(entry)}]")
-
-                    if self.show_dates:
-                        metadata.append(f"[{get_file_dates(entry)}]")
-
-                    if self.show_git_status and self.git_manager:
-                        git_status = self.git_manager.get_status(entry)
-                        if git_status:
-                            metadata.append(git_status)
-
-                    if self.show_checksums and self.checksum_manager:
-                        checksum = self.checksum_manager.calculate(entry)
-                        if checksum:
-                            metadata.append(f"[{checksum}]")
-
-                    if metadata:
-                        line += "  " + " ".join(metadata)
-
-                lines.append(line)
-
-                if entry.is_dir():
-                    extension = "    " if is_last else "│   "
-                    lines.extend(self.get_tree_structure(entry, prefix + extension, depth + 1))
+                    lines.append(line)
 
         except PermissionError:
-            self.skipped_count += 1
-            lines.append(f"{prefix}[Permission denied]")
+            lines.append(f"{prefix}{red('[Permission denied]')}")
 
         return lines
 
-    def _should_ignore(self, path: Path) -> bool:
-        """Check if path should be ignored"""
-        # Build include set (None if not specified)
-        include = self.include_only if self.include_only is not None else None
-
-        # Use the should_ignore function with proper parameters
-        if should_ignore(path, self.ignore_patterns, self.sensitive_patterns, include):
-            return True
-
-        # Apply date filter to files
-        if path.is_file() and self.filter_by_date and not matches_date_filter(path, self.filter_by_date):
-            return True
-
-        return False
-
-    def generate_file_contents(self, directory: Path, depth: int = 0) -> None:
-        """Generate content of all files"""
+    def _collect_files(self, directory: Path, depth: int = 0) -> List[Path]:
+        """Recursively collect all non-ignored files"""
         if self.max_depth is not None and depth > self.max_depth:
-            return
-
+            return []
+        files = []
         try:
-            entries = list(directory.iterdir())
-            entries = [e for e in entries if not self._should_ignore(e)]
+            entries = [e for e in directory.iterdir() if not self._should_ignore(e)]
             entries = sort_entries(entries, self.sort_by)
-
             for entry in entries:
                 if entry.is_dir():
-                    self.generate_file_contents(entry, depth + 1)
+                    files.extend(self._collect_files(entry, depth + 1))
                 else:
-                    # Skip files that don't match search pattern
-                    if self.search_content and not search_in_file(entry, self.search_content):
-                        continue
-
-                    relative_path = entry.relative_to(self.root_path)
-                    content = read_file_content(entry, self.max_file_size, 
-                                               self.show_line_numbers, self.search_content)
-
-                    print(f"\nPath: {relative_path}")
-                    print("─" * 70)
-                    print(content)
-                    print("─" * 27 + "END OF FILE" + "─" * 32)
-
+                    files.append(entry)
         except PermissionError:
             pass
+        return files
 
-    def print_header(self, version: str) -> None:
-        """Print TreeCatt header"""
-        print(f"\nTreeCatt v{version}")
-        print(f"Analyzing: {self.root_path}\n")
+    def print_file_contents(self) -> None:
+        """Print path + content of every file"""
+        files = self._collect_files(self.root_path)
+        if not files:
+            return
+
+        sep_heavy = dim("=" * 70)
+        sep_light = dim("─" * 70)
+        sep_end   = dim("─" * 27) + dim("END OF FILE") + dim("─" * 32)
+
+        print(f"\n{bold('File contents:')}\n")
+        print(sep_heavy)
+
+        for file_path in files:
+            rel = file_path.relative_to(self.root_path)
+            content = read_file_content(file_path, self.max_file_size)
+
+            print(f"\n{bold('Path:')} {color_filename(file_path)}  {dim(str(rel.parent) + '/') if str(rel.parent) != '.' else ''}")
+            print(sep_light)
+            print(content)
+            print(sep_end)
 
     def print_tree(self) -> None:
-        """Print directory tree"""
-        print(f"{self.root_path.name}/")
-        tree_lines = self.get_tree_structure(self.root_path)
-        for line in tree_lines:
+        """Print the directory tree"""
+        print(bold(bright_blue(self.root_path.name)) + "/")
+        for line in self.get_tree_structure(self.root_path):
             print(line)
 
     def print_statistics(self) -> None:
         """Print file statistics"""
-        print(f"\nStatistics:")
-        print(f"  - {self.dir_count} directories")
-        print(f"  - {self.file_count} files")
-        print(f"  - Total size: {format_size(self.total_size)}")
-        if self.skipped_count > 0:
-            print(f"  - {self.skipped_count} items skipped (permissions)")
-
-    def print_duplicates(self) -> None:
-        """Print duplicate files if enabled"""
-        if self.show_duplicates and self.checksum_manager:
-            self.checksum_manager.print_duplicates(self.root_path)
-
-    def print_file_contents(self) -> None:
-        """Print file contents if not in tree-only mode"""
-        if not self.show_tree:
-            print(f"\nFile contents:\n")
-            print("=" * 70)
-            self.generate_file_contents(self.root_path)
+        print()
+        print(bold("Statistics:"))
+        print(f"  {dim('─' * 28)}")
+        print(f"  {dim('Directories :')}  {bright_yellow(str(self.dir_count))}")
+        print(f"  {dim('Files       :')}  {bright_yellow(str(self.file_count))}")
+        print(f"  {dim('Total size  :')}  {bright_yellow(format_size(self.total_size))}")
 
     def run(self) -> int:
         """Execute TreeCatt"""
         if not self.root_path.exists():
-            print(f"Error: Path '{self.root_path}' does not exist.", file=sys.stderr)
+            print(f"{red('Error:')} Path '{self.root_path}' does not exist.", file=sys.stderr)
             return 1
-
         if not self.root_path.is_dir():
-            print(f"Error: '{self.root_path}' is not a directory.", file=sys.stderr)
+            print(f"{red('Error:')} '{self.root_path}' is not a directory.", file=sys.stderr)
             return 1
 
-        # Print header
         from treecatt import __version__
-        self.print_header(__version__)
+        print(f"\n{bold('treecatt')} {dim('v' + __version__)}")
+        print(f"{dim('Analyzing:')} {cyan(str(self.root_path))}\n")
 
-        # Display tree
         self.print_tree()
-
-        # Display statistics
         self.print_statistics()
 
-        # Display duplicates
-        self.print_duplicates()
+        if not self.show_tree_only:
+            self.print_file_contents()
 
-        # Display file contents if requested
-        self.print_file_contents()
-
+        print()
         return 0

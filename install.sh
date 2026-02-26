@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-VERSION="0.1.4"
+VERSION="0.2.0"
 PACKAGE_NAME="treecatt"
 INSTALL_DIR="/usr/local"
 
