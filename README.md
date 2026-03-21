@@ -164,4 +164,4 @@ TreeCatt is released under the [GPL License](LICENSE).
 
 We’d like to thank everyone who contributed ideas, tested the tool, or provided feedback during development. Your support is greatly appreciated!
 
-If you have suggestions, feature requests, or improvements, please don’t hesitate to open an issue or submit a pull request. Every contribution helps make FileGen better for everyone.
+If you have suggestions, feature requests, or improvements, please don’t hesitate to open an issue or submit a pull request. Every contribution helps make TreeCatt better for everyone.
