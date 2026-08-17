@@ -11,16 +11,17 @@
 
 **Advanced CLI tool combining tree and cat functionality**
 
-[![Version](https://img.shields.io/badge/version-0.2.0-blue.svg)](https://github.com/r-seize/TreeCatt/releases)
-[![Python](https://img.shields.io/badge/python-3.8+-green.svg)](https://www.python.org/)
-[![License](https://img.shields.io/badge/license-GPL-orange.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-0.2.1-blue.svg)](https://github.com/r-seize/TreeCatt/releases)
+[![Python](https://img.shields.io/badge/python-3.12+-green.svg)](https://www.python.org/)
+[![License](https://img.shields.io/badge/license-BSD--3--Clause-orange.svg)](LICENSE)
+[![Maintained](https://img.shields.io/badge/maintained-yes-brightgreen.svg)](https://github.com/r-seize/TreeCatt)
 [![Platform](https://img.shields.io/badge/platform-linux%20%7C%20macos%20%7C%20windows-lightgrey.svg)]()
 
 </div>
 
 ## TreeCatt
 
-TreeCatt is a versatile command-line tool to analyze directories and display file contents efficiently. It combines tree visualization, metadata display, content search, checksum calculations, and git integration into a single, easy-to-use interface.
+TreeCatt is a versatile command-line tool to analyze directories and display file contents efficiently. It combines tree visualization, metadata display, and git integration into a single, easy-to-use interface.
 
 ## Installation
 
@@ -32,14 +33,14 @@ sudo apt install pipx  # Ubuntu/Debian
 # or: brew install pipx (macOS)
 
 pipx ensurepath
-pipx install git+https://github.com/r-seize/TreeCatt.git@v0.2.0
+pipx install git+https://github.com/r-seize/TreeCatt.git@v0.2.1
 ```
 
 ### Method 2: Ubuntu/Debian (.deb)
 
 ```bash
-wget https://github.com/r-seize/TreeCatt/releases/download/v0.2.0/python3-treecatt_0.2.0-1_all.deb
-sudo dpkg -i python3-treecatt_0.2.0-1_all.deb
+wget https://github.com/r-seize/TreeCatt/releases/download/v0.2.1/python3-treecatt_0.2.1-1_all.deb
+sudo dpkg -i python3-treecatt_0.2.1-1_all.deb
 ```
 
 ### Method 3: Virtual Environment
@@ -47,7 +48,7 @@ sudo dpkg -i python3-treecatt_0.2.0-1_all.deb
 ```bash
 python3 -m venv ~/.treecatt-venv
 source ~/.treecatt-venv/bin/activate
-pip install git+https://github.com/r-seize/TreeCatt.git@v0.2.0
+pip install git+https://github.com/r-seize/TreeCatt.git@v0.2.1
 
 # Add to PATH (Linux/macOS)
 ln -s ~/.treecatt-venv/bin/treecatt ~/.local/bin/treecatt
@@ -153,15 +154,15 @@ We welcome contributions, bug reports, and feature requests. Please open an issu
 
 ## License
 
-TreeCatt is released under the [GPL License](LICENSE).
+TreeCatt is released under the [BSD 3-Clause License](LICENSE).
 
 ## Links
 
 * [GitHub Repository](https://github.com/r-seize/TreeCatt)
-* [Release v0.2.0](https://github.com/r-seize/TreeCatt/releases/tag/v0.2.0)
+* [Release v0.2.1](https://github.com/r-seize/TreeCatt/releases/tag/v0.2.1)
 
 ## About
 
-We’d like to thank everyone who contributed ideas, tested the tool, or provided feedback during development. Your support is greatly appreciated!
+We'd like to thank everyone who contributed ideas, tested the tool, or provided feedback during development. Your support is greatly appreciated!
 
-If you have suggestions, feature requests, or improvements, please don’t hesitate to open an issue or submit a pull request. Every contribution helps make FileGen better for everyone.
+If you have suggestions, feature requests, or improvements, please don't hesitate to open an issue or submit a pull request. Every contribution helps make TreeCatt better for everyone.

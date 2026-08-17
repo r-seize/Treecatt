@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-VERSION="0.2.0"
+VERSION="0.2.1"
 PACKAGE_NAME="treecatt"
 BUILD_DIR="deb_dist/${PACKAGE_NAME}_${VERSION}_all"
 INSTALL_PREFIX="/usr/local"
@@ -20,11 +20,11 @@ Section: utils
 Priority: optional
 Architecture: all
 Maintainer: R-seize (https://github.com/r-seize)
-Depends: python3 (>= 3.8)
+Depends: python3 (>= 3.12)
 Description: Advanced CLI tool combining tree and cat
  TreeCatt is an advanced command-line tool that combines directory
- tree visualization with file content display, search, filtering,
- and checksum calculation.
+ tree visualization with file content display, metadata, sorting,
+ and git integration.
 EOF
 
 dpkg-deb --build "${BUILD_DIR}" "deb_dist/${PACKAGE_NAME}_${VERSION}_all.deb"

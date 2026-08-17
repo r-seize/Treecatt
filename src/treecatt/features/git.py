@@ -40,8 +40,18 @@ class GitStatusManager:
         if not self.status_cache:
             return ""
         try:
-            rel_path = str(path.relative_to(self.root_path))
+            rel = path.relative_to(self.root_path)
+            rel_path = rel.as_posix()
             status = self.status_cache.get(rel_path, "")
+
+            if not status:
+                # git reports entirely-untracked dirs as "?? dir/" — propagate to children
+                for parent in rel.parents:
+                    if parent == Path('.'):
+                        continue
+                    if self.status_cache.get(parent.as_posix() + '/') == '??':
+                        status = '??'
+                        break
 
             status_map = {
                 'M ': '[M]',

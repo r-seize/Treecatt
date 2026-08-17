@@ -4,23 +4,20 @@ build-backend       = "setuptools.build_meta"
 
 [project]
 name                = "treecatt"
-version             = "0.2.0"
+version             = "0.2.1"
 description         = "A powerful tree visualization tool for directories"
 readme              = "README.md"
 requires-python     = ">=3.12"
+license             = "BSD-3-Clause"
 dependencies        = []
 keywords            = ["tree", "cat", "file", "directory", "cli", "tool"]
 classifiers         = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "Topic :: Software Development :: Build Tools",
-    "License :: OSI Approved :: GNU GENERAL PUBLIC LICENSE-",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Operating System :: OS Independent",
     "Environment :: Console",
 ]
@@ -38,9 +35,9 @@ dev = [
 treecatt = "treecatt.main:main"
 
 [project.urls]
-Homepage    = "https://github.com/votreusername/treecatt"
-Issues      = "https://github.com/votreusername/treecatt/issues"
-Repository  = "https://github.com/votreusername/treecatt.git"
+Homepage    = "https://github.com/r-seize/TreeCatt"
+Issues      = "https://github.com/r-seize/TreeCatt/issues"
+Repository  = "https://github.com/r-seize/TreeCatt.git"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

@@ -2,9 +2,10 @@
 Core TreeCatt class
 """
 
+import fnmatch
 import sys
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Set
 
 from treecatt.constants import DEFAULT_IGNORE
 from treecatt.features import (
@@ -110,6 +111,10 @@ class TreeCatt:
         sort_by: str = 'name',
         max_depth: Optional[int] = None,
         max_file_size: int = 1024 * 1024,
+        ignore_patterns: Optional[List[str]] = None,
+        view_sensitive: Optional[List[str]] = None,
+        include_only: Optional[List[str]] = None,
+        no_default_ignore: bool = False,
     ):
         self.root_path = Path(root_path).resolve()
         self.show_tree_only = show_tree_only
@@ -121,7 +126,12 @@ class TreeCatt:
         self.max_depth = max_depth
         self.max_file_size = max_file_size
 
-        self.ignore_patterns = set(DEFAULT_IGNORE)
+        self.ignore_patterns: Set[str] = set() if no_default_ignore else set(DEFAULT_IGNORE)
+        if ignore_patterns:
+            self.ignore_patterns.update(ignore_patterns)
+
+        self.view_sensitive: Set[str] = set(view_sensitive) if view_sensitive else set()
+        self.include_only: List[str] = list(include_only) if include_only else []
 
         self.file_count = 0
         self.dir_count = 0
@@ -130,6 +140,12 @@ class TreeCatt:
         self.git_manager = GitStatusManager(self.root_path) if show_git_status else None
 
     def _should_ignore(self, path: Path) -> bool:
+        name = path.name
+        if name in self.view_sensitive:
+            return False
+        if self.include_only and path.is_file():
+            if not any(fnmatch.fnmatch(name, p) for p in self.include_only):
+                return True
         return should_ignore(path, self.ignore_patterns)
 
     def get_tree_structure(self, directory: Path, prefix: str = "", depth: int = 0) -> List[str]:
