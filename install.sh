@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-VERSION="0.2.0"
+VERSION="0.2.1"
 PACKAGE_NAME="treecatt"
 INSTALL_DIR="/usr/local"
 
@@ -28,7 +28,7 @@ echo "Detected system: $OS"
 
 if ! command -v python3 &> /dev/null; then
     echo "Python 3 is not installed."
-    echo "Install Python 3.8+ and try again."
+    echo "Install Python 3.12+ and try again."
     exit 1
 fi
 

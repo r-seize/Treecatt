@@ -86,6 +86,14 @@ def format_size(size: float) -> str:
     return f"{size:.1f}TB"
 
 
+def search_in_file(file_path: Path, pattern: str) -> bool:
+    """Return True if pattern is found in file content."""
+    content = read_file_content(file_path)
+    if not content or content.startswith('['):
+        return False
+    return pattern in content
+
+
 def get_file_dates(path: Union[Path, str]) -> str:
     """Get formatted modification date of a file"""
     try:

@@ -115,19 +115,22 @@ sed -i.bak "s/version = \"$CURRENT_VERSION\"/version = \"$NEW_VERSION\"/" pyproj
 echo -e "${YELLOW}📝 Mise à jour de src/treecatt/__init__.py...${NC}"
 sed -i.bak "s/__version__ = \"$CURRENT_VERSION\"/__version__ = \"$NEW_VERSION\"/" src/treecatt/__init__.py && rm src/treecatt/__init__.py.bak
 
-# 3. Mettre à jour main.py
-echo -e "${YELLOW}📝 Mise à jour de src/treecatt/main.py...${NC}"
-sed -i.bak "s/VERSION = \"$CURRENT_VERSION\"/VERSION = \"$NEW_VERSION\"/" src/treecatt/main.py && rm src/treecatt/main.py.bak
+# 3. Mettre à jour setup.py
+echo -e "${YELLOW}📝 Mise à jour de setup.py...${NC}"
+sed -i.bak "s/version         = \"$CURRENT_VERSION\"/version         = \"$NEW_VERSION\"/" setup.py && rm setup.py.bak
 
-# 4. Mettre à jour CHANGELOG.md
-echo -e "${YELLOW}📝 Mise à jour de CHANGELOG.md...${NC}"
-DATE=$(date +%Y-%m-%d)
-CHANGELOG_ENTRY="## [$NEW_VERSION] - $DATE\n\n### Changements\n${CHANGES}\n"
-sed -i.bak "s/## \[Non publié\]/## [Non publié]\n\n${CHANGELOG_ENTRY}/" CHANGELOG.md && rm CHANGELOG.md.bak
+# 4. Mettre à jour cli.py
+echo -e "${YELLOW}📝 Mise à jour de src/treecatt/cli.py...${NC}"
+sed -i.bak "s/%(prog)s $CURRENT_VERSION/%(prog)s $NEW_VERSION/" src/treecatt/cli.py && rm src/treecatt/cli.py.bak
 
-# 5. Commit des changements
+# 5. Mettre à jour install.sh et build_deb.sh
+echo -e "${YELLOW}📝 Mise à jour des scripts...${NC}"
+sed -i.bak "s/VERSION=\"$CURRENT_VERSION\"/VERSION=\"$NEW_VERSION\"/" install.sh && rm install.sh.bak
+sed -i.bak "s/VERSION=\"$CURRENT_VERSION\"/VERSION=\"$NEW_VERSION\"/" build_deb.sh && rm build_deb.sh.bak
+
+# 6. Commit des changements
 echo -e "${YELLOW}📦 Commit des changements...${NC}"
-git add pyproject.toml src/treecatt/__init__.py src/treecatt/main.py CHANGELOG.md
+git add pyproject.toml src/treecatt/__init__.py setup.py src/treecatt/cli.py install.sh build_deb.sh
 git commit -m "chore: bump version to $NEW_VERSION"
 
 # 6. Créer le tag
@@ -174,7 +177,7 @@ echo "   git push origin main"
 echo "   git push origin v$NEW_VERSION"
 echo ""
 echo -e "3. ${YELLOW}Créer la release sur GitHub${NC}"
-echo "   - Aller sur https://github.com/votreusername/treecatt/releases/new"
+echo "   - Aller sur https://github.com/r-seize/TreeCatt/releases/new"
 echo "   - Sélectionner le tag v$NEW_VERSION"
 echo "   - Attacher les fichiers de dist/"
 echo "   - Publier"

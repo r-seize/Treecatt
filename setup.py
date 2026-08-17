@@ -5,10 +5,10 @@ from setuptools import setup, find_packages
 
 setup(
     name            = "treecatt",
-    version         = "0.2.0",
+    version         = "0.2.1",
     package_dir     = {"": "src"},
     packages        = find_packages(where="src"),
-    python_requires = ">=3.8",
+    python_requires = ">=3.12",
     entry_points    = {
         "console_scripts": [
             "treecatt=treecatt.main:main"

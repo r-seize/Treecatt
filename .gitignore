@@ -5,7 +5,6 @@ build/
 *.egg-info/
 *.tar.gz
 htmlcov/
-.coverage
 
 # Python
 __pycache__/
@@ -31,21 +30,17 @@ env.bak/
 Thumbs.db
 .DS_Store?
 
-# Test
+# Test & coverage
 .pytest_cache/
+.coverage
+coverage.xml
+*.cover
+.tox/
 *.log
 
 # Package managers
 *.deb
 *.rpm
 *.whl
-
-# Test coverage
-.pytest_cache/
-.coverage
-htmlcov/
-.tox/
-coverage.xml
-*.cover
 
 dev.log
